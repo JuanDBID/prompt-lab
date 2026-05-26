@@ -13,11 +13,7 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+   
     protected $fillable = [
         'name',
         'email',
@@ -45,5 +41,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'leccion_user', 'user_id', 'post_id')
+                    ->withPivot('xp_ganada', 'tipo_actividad') 
+                    ->withTimestamps();
     }
 }

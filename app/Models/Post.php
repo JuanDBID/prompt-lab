@@ -9,9 +9,15 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['titulo', 'descripcion', 'categoria', 'url_video'];
+    protected $fillable = ['titulo', 'descripcion', 'categoria', 'url_video', 'teoria'];
 
-    // Convertidor automático de links
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'leccion_user')
+                    ->withPivot('xp_ganada', 'tipo_actividad')
+                    ->withTimestamps();
+    }
+
     public function getUrlVideoAttribute($value)
     {
         if (str_contains($value, 'watch?v=')) {
